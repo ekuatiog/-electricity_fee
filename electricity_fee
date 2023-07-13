@@ -1,0 +1,41 @@
+#제품 시간당 전기요금
+
+stuff_fee = { # kwh
+    '에어컨' : '1.8',
+    '선풍기' : '0.06',
+    '냉장고' : '0.1',
+    '컴퓨터' : '0.12',
+    '건조기' : '2.4',
+    '공기청정기' : '0.08',
+    '전자레인지' : '1.05',
+    '진공청소기' : '1.05'
+}
+
+stuff = []
+hours_list = []
+fee = 0
+
+for i in stuff_fee.keys():
+    stuff.append(i)
+
+for  j in stuff:
+    hours = float(input(j + '(을)를 이번달 동안 몇시간 사용하셨나요?'))
+    hours_list.append(hours)
+    fee += float(stuff_fee.get(j)) * hours
+
+choice = input('*****옵션을 선택하세요*****\n\n 이번달 사용 현황 확인 : 1\n 이번달 총 전기요금 예측 : 2\n 각 제품의 소비전력 확인 : 3\n ')
+if choice == '1':
+    print('지금까지 총' + str(fee) + 'Kw 만큼 사용하셨습니다')
+elif choice == '2':
+    day = int(input("오늘이 며칠인가요?\n "))
+    totalfee = (30.0 / day) * fee
+
+    if (30.0 / day) * fee <= 200:
+        print("예상되는 총 전기요금은 " + str(round(910 + totalfee * 120,-1)) + "원 입니다")
+    if (30.0 / day) * fee > 200 and (30.0 / day) * fee <= 400:
+        print("예상되는 총 전기요금은 " + str(round(1600 + 200 * 120 + (totalfee-200) * 214.6,-1)) + "원 입니다")
+    if (30.0 / day) * fee > 400:
+        print("예상되는 총 전기요금은 " + str(round(7300 + 200 * 120 + 200 * 214.6 + (totalfee-400) * 307.3,-1)) + "원 입니다")
+elif choice == '3':
+    for k, l in enumerate(stuff):
+        print(str(l) + "의 소비전력 : " + str(stuff_fee.get(l)) + " * " + str(hours_list[k]) + " = " + str(round(float(stuff_fee.get(l)) * float(hours_list[k]),1)))
